@@ -7,15 +7,20 @@ public class DistanceLabel : MonoBehaviour {
 
     Text myText;
     float distance;
-    
-	void Start ()
+    public FlappyGame game;
+
+    void Start ()
     {
         myText = GetComponent<Text>();
     }
 	
 	void Update ()
     {
-        distance += Time.deltaTime;
-        myText.text = $"DIST {distance:0.00}";
+        if (!game.ended)
+        {
+
+            distance += Time.deltaTime;
+            myText.text = $"DIST {distance:0.00}";
+        }
     }
 }

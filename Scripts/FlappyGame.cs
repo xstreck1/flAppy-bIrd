@@ -9,6 +9,7 @@ public class FlappyGame : MonoBehaviour
     public Bird mainBird;
     public Bird[] birds;
     public Text endText;
+    public bool ended = false;
 
     // Use this for initialization
     void Start()
@@ -27,7 +28,7 @@ public class FlappyGame : MonoBehaviour
 
     public void EndGame()
     {
-        Time.timeScale = 0f;
+        ended = true;
         endText.text = "YOU KILLED ICARUS.\nYOU BASTARD!";
     }
 }

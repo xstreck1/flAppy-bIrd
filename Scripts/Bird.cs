@@ -12,11 +12,28 @@ public class Bird : Agent
     public float Heat { get; set; } = 0f;
     public FlappyGame game;
 
+    public Sprite normal;
+    public Sprite flap;
+
     float MouseY => Camera.main.ScreenToWorldPoint(Input.mousePosition).y;
 
     public void Push()
     {
-        myBody.AddForce(Vector2.up * forceRatio, ForceMode2D.Impulse);
+        if (!game.ended)
+        {
+            myBody.AddForce(Vector2.up * forceRatio, ForceMode2D.Impulse);
+        }
+        if (!game.isTraning)
+        {
+            GetComponent<SpriteRenderer>().sprite = flap;
+            StartCoroutine(ResetFlap());
+        }
+    }
+
+    IEnumerator ResetFlap()
+    {
+        yield return new WaitForSeconds(1f);
+        GetComponent<SpriteRenderer>().sprite = normal;
     }
 
     private void Update()
@@ -27,10 +44,10 @@ public class Bird : Agent
         }
         else
         {
-            Heat -= Time.deltaTime * 1f;
+            Heat -= Time.deltaTime * 2.5f;
         }
         Heat = Mathf.Clamp(Heat, 0, 100f);
-        if (Heat >= 100f)
+        if (Heat >= 100f && !game.isTraning)
         {
             game.EndGame();
         }
@@ -64,7 +81,7 @@ public class Bird : Agent
         }
         else
         {
-            SetReward(Mathf.Abs(transform.position.y - MouseY) * .01f);
+            SetReward(Mathf.Log(Mathf.Abs(transform.position.y - MouseY) + 1f) * .01f - 0.02f);
         }
     }
 

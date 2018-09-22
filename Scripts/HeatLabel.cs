@@ -8,6 +8,7 @@ public class HeatLabel : MonoBehaviour {
     public Bird mainBird;
     Text myText;
     float heat;
+    public FlappyGame game;
 
     void Start()
     {
@@ -16,6 +17,9 @@ public class HeatLabel : MonoBehaviour {
 
     void Update()
     {
-        myText.text = $"HEAT {mainBird.Heat:0.00}";
+        if (!game.ended)
+        {
+            myText.text = $"HEAT {mainBird.Heat:0.00}";
+        }
     }
 }
