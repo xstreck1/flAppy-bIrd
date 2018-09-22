@@ -9,12 +9,32 @@ public class Bird : Agent
     public float forceRatio = 1f;
     Vector3 startPos;
     float height = 5f;
+    public float Heat { get; set; } = 0f;
+    public FlappyGame game;
+
+    float MouseY => Camera.main.ScreenToWorldPoint(Input.mousePosition).y;
 
     public void Push()
     {
         myBody.AddForce(Vector2.up * forceRatio, ForceMode2D.Impulse);
     }
 
+    private void Update()
+    {
+        if (Mathf.Abs(transform.position.y - MouseY) < .5f)
+        {
+            Heat += Time.deltaTime * 10f;
+        }
+        else
+        {
+            Heat -= Time.deltaTime * 1f;
+        }
+        Heat = Mathf.Clamp(Heat, 0, 100f);
+        if (Heat >= 100f)
+        {
+            game.EndGame();
+        }
+    }
 
     public override void InitializeAgent()
     {
@@ -26,11 +46,11 @@ public class Bird : Agent
     {
         AddVectorObs(gameObject.transform.position.y);
         AddVectorObs(myBody.velocity.y);
+        AddVectorObs(MouseY);
     }
 
     public override void AgentAction(float[] vectorAction, string textAction)
     {
-        
         int jump = Mathf.FloorToInt(vectorAction[0]);
 
         if (jump == 1)
@@ -44,14 +64,21 @@ public class Bird : Agent
         }
         else
         {
-            SetReward((height - transform.position.y) * .01f);
+            SetReward(Mathf.Abs(transform.position.y - MouseY) * .01f);
         }
     }
 
     public override void AgentReset()
     {
-        myBody.velocity = Vector3.zero;
-        transform.position = startPos;
+        if (game.isTraning)
+        {
+            myBody.velocity = Vector3.zero;
+            transform.position = startPos;
+        }
+        else if (transform.position.y > height || transform.position.y < -height)
+        {
+            game.EndGame();
+        }
     }
 
 }
