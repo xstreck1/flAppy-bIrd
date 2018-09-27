@@ -2,21 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Move : MonoBehaviour {
-    public float speed = 1f;
+public class Move : MonoBehaviour
+{
     public float tileSize = 1f;
-    public FlappyGame game;
-	
-	// Update is called once per frame
-	void Update () {
-        if (!game.ended)
-        {
-            transform.position += Vector3.left * speed * Time.deltaTime;
+    public float speed = 2f;
 
-            if (transform.position.x < -tileSize)
+    void Update()
+    {
+        {
+            transform.localPosition += Vector3.left * Time.deltaTime * speed;
+            if (transform.localPosition.x < -tileSize / 2f)
             {
-                transform.position += Vector3.right * tileSize;
+                transform.localPosition += Vector3.right * tileSize;
             }
         }
-	}
+    }
 }

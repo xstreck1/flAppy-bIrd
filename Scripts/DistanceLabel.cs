@@ -3,24 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DistanceLabel : MonoBehaviour {
+public class DistanceLabel : MonoBehaviour
+{
 
     Text myText;
     float distance;
-    public FlappyGame game;
+    public Bird bird;
 
-    void Start ()
+    void Start()
     {
         myText = GetComponent<Text>();
     }
-	
-	void Update ()
-    {
-        if (!game.ended)
-        {
 
-            distance += Time.deltaTime;
-            myText.text = $"DIST {distance:0.00}";
-        }
+    void Update()
+    {
+        myText.text = $"DIST {bird.counter:0.00}";
     }
 }

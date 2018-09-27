@@ -8,13 +8,11 @@ public class FlappyGame : MonoBehaviour
     public bool isTraning = false;
     public Bird mainBird;
     public Bird[] birds;
-    public Text endText;
     public bool ended = false;
 
     // Use this for initialization
     void Start()
     {
-        endText.text = "";
         if (!isTraning)
         {
             foreach (var bird in birds)
@@ -24,11 +22,7 @@ public class FlappyGame : MonoBehaviour
         }
     }
 
-
-
     public void EndGame()
     {
-        ended = true;
-        endText.text = "YOU KILLED ICARUS.\nYOU BASTARD!";
     }
 }
