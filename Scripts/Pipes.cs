@@ -3,14 +3,14 @@ using UnityEngine;
 
 public class Pipes : MonoBehaviour
 {
-    const float spacing = 2f; // Distance between pipes
-    const int totalPipes = 3;
-    private Vector3 origPosition;
+    private const float spacing = 2f; // Distance between pipes
+    private const int totalPipes = 3;
+    private Vector3 startPos;
     public float pipeVariance = .5f;
 
     private void Awake()
     {
-        origPosition = transform.localPosition;
+        startPos = transform.localPosition;
         RandomizeY(); 
     }
 
@@ -26,7 +26,7 @@ public class Pipes : MonoBehaviour
 
     public void InitialPosition()
     {
-        transform.localPosition = origPosition;
+        transform.localPosition = startPos;
         RandomizeY();
     }
 

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿// Bottom.cs
+using UnityEngine;
 
 public class Bottom : MonoBehaviour
 {
@@ -6,10 +7,10 @@ public class Bottom : MonoBehaviour
 
     void LateUpdate()
     {
-        transform.localPosition += Vector3.left * Time.deltaTime;
+        transform.Translate(Vector3.left * Time.deltaTime);
         if (transform.localPosition.x < -tileSize)
         {
-            transform.localPosition += Vector3.right * tileSize;
+            transform.Translate(Vector3.right * tileSize);
         }
     }
 }

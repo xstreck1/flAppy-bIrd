@@ -1,46 +1,45 @@
-﻿using MLAgents;
-using System.Collections;
-using System.Collections.Generic;
+﻿// Bird.cs
+using MLAgents;
 using UnityEngine;
 
 public class Bird : Agent
 {
-    Rigidbody2D myBody;
-    public float forceRatio = 1f;
-    Vector3 startPos;
-    bool dead = false;
-    bool pushed = false;
+    private Rigidbody2D myBody;
+    private Vector3 startPos;
+    private bool dead = false;
+
+    private bool screenPressed = false;
+    const float height = 2f;
+    const float pipeSpace = .6f;
+
     public PipeSet pipes;
     public float counter = 0f;
-    const float height = 2f;
 
-    public Sprite normal;
-    public Sprite flap;
-
-    public void Push()
-    {
-        myBody.AddForce(Vector2.up * forceRatio, ForceMode2D.Impulse);
-    }
 
     private void Update()
     {
         counter += Time.deltaTime;
     }
 
-    public override void InitializeAgent()
+    private void Start()
     {
         myBody = GetComponent<Rigidbody2D>();
         startPos = transform.localPosition;
+    }
+
+    private void Push()
+    {
+        myBody.AddForce(Vector2.up, ForceMode2D.Impulse);
     }
 
     public override void CollectObservations()
     {
         AddVectorObs(gameObject.transform.localPosition.y / height);
         AddVectorObs(Mathf.Clamp(myBody.velocity.y, -height, height) / height);
-        Vector3 pipePos = pipes.getPipe().localPosition;
-        AddVectorObs((pipePos.y - .6f) / height);
-        AddVectorObs((pipePos.y + .6f) / height);
-        AddVectorObs(pushed ? 1f : -1f);
+        Vector3 pipePos = pipes.GetNextPipe().localPosition;
+        AddVectorObs((pipePos.y - pipeSpace) / height);
+        AddVectorObs((pipePos.y + pipeSpace) / height);
+        AddVectorObs(screenPressed ? 1f : -1f);
     }
 
     public override void AgentAction(float[] vectorAction, string textAction)
@@ -54,14 +53,14 @@ public class Bird : Agent
         {
             SetReward(0.01f);
 
-            int jump = Mathf.FloorToInt(vectorAction[0]);
-            if (jump == 0)
+            int tap = Mathf.FloorToInt(vectorAction[0]);
+            if (tap == 0)
             {
-                pushed = false;
+                screenPressed = false;
             }
-            if (jump == 1 && !pushed)
+            if (tap == 1 && !screenPressed)
             {
-                pushed = true;
+                screenPressed = true;
                 Push();
             }
         }
@@ -72,13 +71,12 @@ public class Bird : Agent
         myBody.velocity = Vector3.zero;
         transform.localPosition = startPos;
         dead = false;
-        counter = 0f;
         pipes.ResetPos();
+        counter = 0f;
     }
 
     private void OnTriggerEnter2D(Collider2D collision2d)
     {
         dead = true;
     }
-
 }
