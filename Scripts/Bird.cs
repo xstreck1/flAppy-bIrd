@@ -10,8 +10,9 @@ public class Bird : Agent
     Vector3 startPos;
     bool dead = false;
     bool pushed = false;
-    public Pipes pipes;
+    public PipeSet pipes;
     public float counter = 0f;
+    const float height = 2f;
 
     public Sprite normal;
     public Sprite flap;
@@ -34,27 +35,16 @@ public class Bird : Agent
 
     public override void CollectObservations()
     {
-        AddVectorObs(gameObject.transform.localPosition.y);
-        AddVectorObs(myBody.velocity.y);
-        Vector3 pipePos = pipes.getPipe();
-        AddVectorObs(pipePos.y - .6f);
-        AddVectorObs(pipePos.y + .6f);
-        AddVectorObs(pushed ? 1f : 0f);
+        AddVectorObs(gameObject.transform.localPosition.y / height);
+        AddVectorObs(Mathf.Clamp(myBody.velocity.y, -height, height) / height);
+        Vector3 pipePos = pipes.getPipe().localPosition;
+        AddVectorObs((pipePos.y - .6f) / height);
+        AddVectorObs((pipePos.y + .6f) / height);
+        AddVectorObs(pushed ? 1f : -1f);
     }
 
     public override void AgentAction(float[] vectorAction, string textAction)
     {
-        int jump = Mathf.FloorToInt(vectorAction[0]);
-        if (jump == 0 && pushed)
-        {
-            pushed = false;
-        }
-        if (jump == 1 && !pushed)
-        {
-            pushed = true;
-            Push();
-        }
-
         if (dead)
         {
             SetReward(-1f);
@@ -63,6 +53,17 @@ public class Bird : Agent
         else
         {
             SetReward(0.01f);
+
+            int jump = Mathf.FloorToInt(vectorAction[0]);
+            if (jump == 0)
+            {
+                pushed = false;
+            }
+            if (jump == 1 && !pushed)
+            {
+                pushed = true;
+                Push();
+            }
         }
     }
 

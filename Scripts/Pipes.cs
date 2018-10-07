@@ -1,34 +1,38 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿// Pipes.cs
 using UnityEngine;
 
 public class Pipes : MonoBehaviour
 {
-    public float yPos = 0f;
-    public float xPos = 0f;
+    const float spacing = 2f; // Distance between pipes
+    const int totalPipes = 3;
+    private Vector3 origPosition;
+    public float pipeVariance = .5f;
 
-    public Vector3 getPipe()
+    private void Awake()
     {
-        float leftMost = float.MaxValue;
-        Transform leftChild = null;
-        foreach (Transform child in transform)
-        {
-            if (child.localPosition.x < leftMost && child.localPosition.x > -.35f)
-            {
-                leftChild = child;
-                leftMost = child.localPosition.x;
-            }
-        }
-        yPos = leftChild.localPosition.y;
-        xPos = leftChild.localPosition.x;
-        return leftChild.localPosition;
+        origPosition = transform.localPosition;
+        RandomizeY(); 
     }
 
-    public void ResetPos()
+    private void LateUpdate()
     {
-        foreach (Transform child in transform)
+        transform.Translate(Vector3.left * Time.deltaTime);
+        if (transform.localPosition.x < -spacing)
         {
-            child.GetComponent<MovePipe>().ResetPos();
+            transform.Translate(Vector3.right *
+                spacing * totalPipes);
         }
+    }
+
+    public void InitialPosition()
+    {
+        transform.localPosition = origPosition;
+        RandomizeY();
+    }
+
+    private void RandomizeY()
+    {
+        transform.Translate(Vector3.up
+            * Random.Range(-pipeVariance, pipeVariance));
     }
 }
