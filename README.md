@@ -13,9 +13,7 @@ This project needs the ML-Agents environment version 0.5.0 (newer won't work due
 2. Make sure this python and pip are in the [Path](https://projects.raspberrypi.org/en/projects/using-pip-on-windows/5).
 3. Get Unity 2018.1+
 4. Download the ML-Agents 0.5.0 at https://github.com/Unity-Technologies/ml-agents/releases/tag/0.5.0
-5. Install dependencies:
-    1. `cd ml-agents`
-    2. `pip install ml-agents` (note that the folder ml-agents is nested in the repo ml-agents)
+5. Install dependencies: `pip3 install mlagents`
 6. Open the repo in Unity.
 7. Get [TensorflowSharp](https://s3.amazonaws.com/unity-ml-agents/0.5/TFSharpPlugin.unitypackage) and import into the project.
 8. Clone this repository into the `UnitySDK/Assets` folder.
