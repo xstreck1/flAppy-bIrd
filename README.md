@@ -11,7 +11,7 @@ This project needs the ML-Agents environment version 0.5.0 (newer won't work due
 
 1. Get Python 3.6 64-bit (the 64 bit is necessary at least on Windows)
 2. Make sure this python and pip are in the [Path](https://projects.raspberrypi.org/en/projects/using-pip-on-windows/5).
-3. Get Unity 2018.1+
+3. Get Unity 2017.4+ (not tested with the new Prefab system, i.e. 2018.3+)
 4. Download the ML-Agents 0.5.0 at https://github.com/Unity-Technologies/ml-agents/releases/tag/0.5.0
 5. Install dependencies: `pip3 install "mlagents<=0.5.0"`
 6. Open the repo in Unity.
