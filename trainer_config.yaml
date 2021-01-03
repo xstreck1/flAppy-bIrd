@@ -1,0 +1,7 @@
+behaviors:
+    flAppy-bIrd:
+        trainer_type: ppo    
+        summary_freq: 10000
+        network_settings:
+            hidden_units: 256
+            

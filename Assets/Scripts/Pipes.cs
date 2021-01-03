@@ -13,14 +13,14 @@ public class Pipes : MonoBehaviour
         startPos = transform.localPosition;
         RandomizeY(); 
     }
-
+    
     private void LateUpdate()
     {
-        transform.Translate(Vector3.left * Time.deltaTime);
-        if (transform.localPosition.x < -spacing)
+        var trans = transform;
+        trans.Translate(Vector3.left * Time.deltaTime);
+        if (trans.localPosition.x < -spacing)
         {
-            transform.Translate(Vector3.right *
-                spacing * totalPipes);
+            trans.Translate(Vector3.right * spacing * totalPipes);
         }
     }
 
@@ -32,7 +32,7 @@ public class Pipes : MonoBehaviour
 
     private void RandomizeY()
     {
-        transform.Translate(Vector3.up
-            * Random.Range(-pipeVariance, pipeVariance));
+        float posY = Random.Range(-pipeVariance, pipeVariance);
+        transform.Translate(Vector3.up * posY);
     }
 }

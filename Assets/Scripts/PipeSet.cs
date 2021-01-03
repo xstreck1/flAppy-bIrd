@@ -16,8 +16,8 @@ public class PipeSet : MonoBehaviour
         Transform leftChild = null;
         foreach (Transform child in transform)
         {
-            if (child.localPosition.x < leftMost &&
-                child.localPosition.x > -.3f)
+            float childX = child.localPosition.x;
+            if (childX < leftMost && childX > -.3f)
             {
                 leftChild = child;
                 leftMost = child.localPosition.x;

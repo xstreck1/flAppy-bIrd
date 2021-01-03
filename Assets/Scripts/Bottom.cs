@@ -5,7 +5,7 @@ public class Bottom : MonoBehaviour
 {
     public float tileSize = 3.36f;
 
-    void LateUpdate()
+    private void LateUpdate()
     {
         transform.Translate(Vector3.left * Time.deltaTime);
         if (transform.localPosition.x < -tileSize)
